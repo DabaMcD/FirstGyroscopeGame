@@ -6,11 +6,14 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     private Thread gameThread;
+    private GameView gameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        gameView = findViewById(R.id.gameView);
 
         startGameThread();
     }
@@ -23,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                // Whatever you want to run over and over
+                                gameView.draw();
                             }
                         });
                         Thread.sleep(Math.abs(previousMillis - System.currentTimeMillis() + 30));
@@ -33,6 +36,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        thread.start();
+        gameThread.start();
     }
 }
