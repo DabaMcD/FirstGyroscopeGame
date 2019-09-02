@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        Screen.height = displayMetrics.heightPixels;
+        Screen.width = displayMetrics.widthPixels;
+
         gameView = findViewById(R.id.gameView);
 
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -33,11 +39,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (al.size() != 0) {
             ax = al.get(0);
-            ay = al.get(1);
-            az = al.get(2);
+//            ay = al.get(1);
+//            az = al.get(2);
             sm.registerListener(this, ax, SensorManager.SENSOR_DELAY_GAME);
-            sm.registerListener(this, ay, SensorManager.SENSOR_DELAY_GAME);
-            sm.registerListener(this, az, SensorManager.SENSOR_DELAY_GAME);
+//            sm.registerListener(this, ay, SensorManager.SENSOR_DELAY_GAME);
+//            sm.registerListener(this, az, SensorManager.SENSOR_DELAY_GAME);
         }
 
         x = y = sensorX = sensorY = 0;
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                gameView.draw(sensorX, sensorY);
+                                gameView.draw(sensorX, 0);
                             }
                         });
                         Thread.sleep(Math.abs(previousMillis - System.currentTimeMillis() + 30));
@@ -69,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onPause() {
         sm.unregisterListener(this, ax);
-        sm.unregisterListener(this, ay);
-        sm.unregisterListener(this, az);
+//        sm.unregisterListener(this, ay);
+//        sm.unregisterListener(this, az);
 
         super.onPause();
     }
@@ -80,8 +86,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         try {
             Thread.sleep(16);
             sensorX = sensorEvent.values[0];
-            sensorY = sensorEvent.values[1];
-            sensorZ = sensorEvent.values[2];
+//            sensorY = sensorEvent.values[1];
+//            sensorZ = sensorEvent.values[2];
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

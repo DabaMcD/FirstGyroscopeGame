@@ -2,6 +2,7 @@ package com.example.ballbalancewithgyroscope;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -25,7 +26,8 @@ public class GameView extends View {
     }
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawCircle(200 + x, 200 + y, 30, paint);
+        paint.setColor(Color.GREEN);
+        canvas.drawCircle(200 + x * 200, 200 + y * 200, 30, paint);
 
         super.onDraw(canvas);
     }
