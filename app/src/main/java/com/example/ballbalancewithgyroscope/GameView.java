@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 
 public class GameView extends View {
     private Paint paint = new Paint();
-    private float x, y;
+    private float x, y, vx, vy, ax, ay;
 
     public GameView(Context context) {
         super(context);
@@ -27,13 +27,24 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         paint.setColor(Color.GREEN);
-        canvas.drawCircle(200 + x * 200, 200 + y * 200, 30, paint);
+        canvas.drawCircle(Screen.width / 2f + x, Screen.height / 2f + y, 30, paint);
+        x += vx;
+        y += vy;
+        vx -= ax / 10;
+        vy -= ay / 10;
+
+        if (Math.abs(x) > Screen.width / 2f + 30) {
+            paint.setColor(Color.RED);
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTextSize(Screen.height / 30);
+            canvas.drawText("You Lose", Screen.width / 2, Screen.height / 2, paint);
+        }
 
         super.onDraw(canvas);
     }
     public void draw(float sx, float sy) {
-        x = sx;
-        y = sy;
+        ax = sx;
+        ay = sy;
         invalidate();
         requestLayout();
     }
